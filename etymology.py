@@ -5,7 +5,7 @@ from sopel.formatting import underline
 from bs4 import BeautifulSoup
 import re, requests
 
-WORD_URI = 'https://www.etymonline.com/word/%s'
+WORD_URI = 'https://www.etymonline.com/word/'
 
 def get_definitions(word, html):
     definitions = []
@@ -24,15 +24,15 @@ def get_definitions(word, html):
 @example('.ety word or phrase')
 def f_etymology(bot, trigger):
     """Look up the etymology of a word"""
-    word = trigger.group(2)
-    req = requests.get(WORD_URI % word.lower())
+    phrase = re.sub('[^a-zA-Z ]', '', trigger.group(2)).strip().lower()
+    req = requests.get(WORD_URI + phrase)
     if req.ok:
-        results = get_definitions(word, req.text)
+        results = get_definitions(phrase, req.text)
         if len(results):
             definitions = ". " .join(["%s %s" % (underline(pair[0]), pair[1]) for pair in results])
             bot.say(definitions, trigger.sender, len(definitions)*2)
         else:
-            bot.say('Can\'t find the etymology for "%s".' % word, trigger.sender)
+            bot.say('Can\'t find the etymology for "%s".' % phrase, trigger.sender)
     else:
-        bot.say('Can\'t find the etymology for "%s".' % word, trigger.sender)
+        bot.say('Can\'t find the etymology for "%s".' % phrase, trigger.sender)
     return NOLIMIT
