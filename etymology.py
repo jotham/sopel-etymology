@@ -36,7 +36,7 @@ else:
         """Look up the etymology of a word"""
         phrase = re.sub('[^a-zA-Z ]', '', trigger.group(2)).strip().lower()
         results = get_definitions(phrase)
-        if len(results):
+        if results and len(results):
             definitions = ". " .join(["{} {}".format(underline(pair[0]), pair[1]) for pair in results])
             bot.say(definitions, trigger.sender, len(definitions)*2)
         else:
