@@ -34,13 +34,14 @@ else:
     @sopel.module.example('.ety word or phrase')
     def f_etymology(bot, trigger):
         """Look up the etymology of a word"""
-        phrase = re.sub('[^a-zA-Z ]', '', trigger.group(2)).strip().lower()
-        results = get_definitions(phrase)
-        if results and len(results):
-            definitions = ". " .join(["{} {}".format(underline(pair[0]), pair[1]) for pair in results])
-            bot.say(definitions, trigger.sender, len(definitions)*2)
-        else:
-            bot.say('Can\'t find the etymology for "{}".'.format(phrase), trigger.sender)
+        if trigger.group(2):
+            phrase = re.sub('[^a-zA-Z ]', '', trigger.group(2)).strip().lower()
+            results = get_definitions(phrase)
+            if results and len(results):
+                definitions = ". " .join(["{} {}".format(underline(pair[0]), pair[1]) for pair in results])
+                bot.say(definitions, trigger.sender, len(definitions)*2)
+            else:
+                bot.say('Can\'t find the etymology for "{}".'.format(phrase), trigger.sender)
         return sopel.module.NOLIMIT
 
 if __name__ == '__main__':
