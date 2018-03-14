@@ -22,14 +22,12 @@ def get_definitions(word):
     else:
         return None
 
-
 try:
     import sopel.module
 except ImportError:
     pass
 else:
     from sopel.formatting import underline
-
     @sopel.module.commands('ety')
     @sopel.module.example('.ety word or phrase')
     def f_etymology(bot, trigger):
