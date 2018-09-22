@@ -16,7 +16,7 @@ def get_definitions(word):
             except AttributeError as e:
                 # probably a h1
                 name = element.find('h1', class_=re.compile('^word__name')).text
-            definition = element.find('object').text
+            definition = element.find('section').text
             definitions.append((name, definition))
         return definitions
     else:
