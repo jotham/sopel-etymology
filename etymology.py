@@ -18,6 +18,7 @@ def get_definitions(word):
                 name = element.find('h1', class_=re.compile('^word__name')).text
             definition = element.find('section').text
             definitions.append((name, definition))
+            return definitions # exit early if we have one
         return definitions
     else:
         return None
@@ -44,7 +45,7 @@ else:
 
 if __name__ == '__main__':
     import sys
-    query = 'cunt'
+    query = 'horizon'
     if len(sys.argv) > 1:
         query = ' '.join(sys.argv[1:])
     print('Looking up "{}"'.format(query))
